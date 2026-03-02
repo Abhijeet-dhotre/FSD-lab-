@@ -1,59 +1,64 @@
-document.getElementById("registrationForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+const emailPattern = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+const mobilePattern = /^[6-9]\d{9}$/;
+const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
-    // Get input values
-    var name = document.getElementById("name").value.trim();
-    var email = document.getElementById("email").value.trim();
-    var password = document.getElementById("password").value;
-    var mobile = document.getElementById("mobile").value.trim();
+let generatedOTP = "";
 
-    // Error elements
-    var nameError = document.getElementById("nameError");
-    var emailError = document.getElementById("emailError");
-    var passwordError = document.getElementById("passwordError");
-    var mobileError = document.getElementById("mobileError");
-    var successMessage = document.getElementById("successMessage");
+// ================= REAL-TIME VALIDATION =================
 
-    // Clear previous messages
-    nameError.textContent = "";
-    emailError.textContent = "";
-    passwordError.textContent = "";
-    mobileError.textContent = "";
-    successMessage.textContent = "";
+document.getElementById("name").addEventListener("input", function () {
+    document.getElementById("nameError").textContent =
+        this.value.trim() === "" ? "Name is required" : "";
+});
 
-    var isValid = true;
+document.getElementById("email").addEventListener("input", function () {
+    document.getElementById("emailError").textContent =
+        emailPattern.test(this.value) ? "" : "Invalid email format";
+});
 
-    // Name validation
-    if (name === "") {
-        nameError.textContent = "Name must not be empty";
-        isValid = false;
+document.getElementById("mobile").addEventListener("input", function () {
+    document.getElementById("mobileError").textContent =
+        mobilePattern.test(this.value) ? "" : "Invalid mobile number";
+});
+
+document.getElementById("password").addEventListener("input", function () {
+    document.getElementById("passwordError").textContent =
+        passwordPattern.test(this.value)
+            ? ""
+            : "Min 8 chars, 1 uppercase, 1 number, 1 symbol";
+});
+
+// ================= OTP GENERATION =================
+
+document.getElementById("sendOtpBtn").addEventListener("click", function () {
+
+    const mobile = document.getElementById("mobile").value;
+
+    if (!mobilePattern.test(mobile)) {
+        alert("Enter valid mobile number first!");
+        return;
     }
 
-    // Email validation
-    var emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-    if (email === "") {
-        emailError.textContent = "Email must not be empty";
-        isValid = false;
-    } else if (!email.match(emailPattern)) {
-        emailError.textContent = "Enter valid email address";
-        isValid = false;
+    generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    alert("Demo OTP: " + generatedOTP); // Simulated OTP
+});
+
+// ================= FINAL SUBMIT =================
+
+document.getElementById("registrationForm").addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+    const otpInput = document.getElementById("otp").value;
+
+    if (otpInput !== generatedOTP) {
+        document.getElementById("otpError").textContent = "Invalid OTP";
+        return;
     }
 
-    // Password validation
-    if (password.length < 6) {
-        passwordError.textContent = "Password must be at least 6 characters long";
-        isValid = false;
-    }
-
-    // Mobile validation
-    if (isNaN(mobile) || mobile.length !== 10) {
-        mobileError.textContent = "Enter valid 10-digit mobile number";
-        isValid = false;
-    }
-
-    // Success
-    if (isValid) {
-        successMessage.textContent = "Form submitted successfully!";
-        document.getElementById("registrationForm").reset();
-    }
+    document.getElementById("successMessage").textContent =
+        "Registration Successful!";
+        
+    document.getElementById("registrationForm").reset();
 });

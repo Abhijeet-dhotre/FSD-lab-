@@ -1,44 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Student Registration Form</title>
-    
-    <!-- Link External CSS -->
+    <title>Registration Form</title>
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Link JavaScript -->
-    <script src="script.js" defer></script>
 </head>
 <body>
 
 <div class="container">
-    <h2>Student Registration Form</h2>
+    <h2>Registration Form</h2>
 
     <form id="registrationForm">
 
-        <label>Name:</label>
-        <input type="text" id="name">
-        <div id="nameError" class="error"></div>
+        <input type="text" id="name" placeholder="Full Name">
+        <span class="error" id="nameError"></span>
 
-        <label>Email:</label>
-        <input type="text" id="email">
-        <div id="emailError" class="error"></div>
+        <input type="text" id="email" placeholder="Email">
+        <span class="error" id="emailError"></span>
 
-        <label>Password:</label>
-        <input type="password" id="password">
-        <div id="passwordError" class="error"></div>
+        <input type="password" id="password" placeholder="Password">
+        <span class="error" id="passwordError"></span>
 
-        <label>Mobile Number:</label>
-        <input type="text" id="mobile">
-        <div id="mobileError" class="error"></div>
+        <input type="text" id="mobile" placeholder="Mobile Number">
+        <span class="error" id="mobileError"></span>
+
+        <button type="button" id="sendOtpBtn">Send OTP</button>
+
+        <input type="text" id="otp" placeholder="Enter OTP">
+        <span class="error" id="otpError"></span>
 
         <button type="submit">Register</button>
-
-        <div id="successMessage" class="success"></div>
-
     </form>
+
+    <p id="successMessage"></p>
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
